@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EmployeeDetailsActivity extends AppCompatActivity {
 
@@ -32,34 +33,47 @@ public class EmployeeDetailsActivity extends AppCompatActivity {
         TextView emailVIew = (TextView) findViewById(R.id.ed_emailText);
         TextView supervisorView = (TextView) findViewById(R.id.ed_supervisorText);
         TextView idView = (TextView) findViewById(R.id.ed_employeeID);
+        View supervisorContent = findViewById(R.id.el_supervisorContent);
 
         nameView.setText(employee.name);
         positionView.setText(employee.position + ", " + employee.department);
-        officePhoneView.setText("Call Office: "  + employee.officePhone);
-        hpView.setText("Call HP: "  + employee.cellPhone);
-        supervisorView.setText("Supervisor: " + employee.supervisorName );
+        officePhoneView.setText("Call Office: " + employee.officePhone);
+        hpView.setText("Call HP: " + employee.cellPhone);
+        supervisorView.setText("Supervisor: " + employee.supervisorName);
         emailVIew.setText("Email: " + employee.email);
         idView.setText("ID: " + employee.id);
+        if(employee.supervisorID == null){
+            //GONE = totally gone, does not take any space unlike INVISIBLE
+            supervisorContent.setVisibility(View.GONE);
+        }else {
+            supervisorView.setText("Supervisor: " + employee.supervisorName);
+        }
     }
 
-    public void callOffice(View Button){
+    public void callOffice(View Button) {
+        Toast.makeText(this,"Hi", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel: " + employee.officePhone));
         startActivity(intent);
     }
 
-    public void callHP(View Button){
+    public void callHP(View Button) {
         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel: " + employee.cellPhone));
         startActivity(intent);
     }
 
-    public void email(View Button){
+    public void email(View Button) {
         Intent intent = new Intent(Intent.ACTION_SEND, Uri.parse("mailto:" + employee.email));
         intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{employee.email});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Email intent successful");
+        intent.putExtra(Intent.EXTRA_TEXT, "Testing");
         startActivity(intent);
     }
 
-    public void viewSupervisor(View Button){
-
+    public void viewSupervisor(View Button) {
+        Intent intent = new Intent(this, EmployeeDetailsActivity.class);
+        intent.putExtra("id", employee.supervisorID);
+        startActivity(intent);
     }
 
 }
