@@ -2,9 +2,13 @@ package com.magic.lesson1;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 public class EmployeeDetailsActivity extends AppCompatActivity {
+
+    static final String TAG = "EmployeeDetailsActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,22 @@ public class EmployeeDetailsActivity extends AppCompatActivity {
         supervisorView.setText("Supervisor: " + employee.supervisorName );
         emailVIew.setText("Email: " + employee.email);
         idView.setText("ID: " + employee.id);
+    }
+
+    public void callOffice(View Button){
+        Log.d(TAG,"You clicked callOffice button");
+    }
+
+    public void callHP(View Button){
+
+    }
+
+    public void email(View Button){
+
+    }
+
+    public void viewSupervisor(View Button){
+
     }
 
 }

@@ -45,7 +45,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:minWidth="100dp"
-            android:drawableLeft="@android:drawable/sym_action_call" />
+            android:drawableLeft="@android:drawable/sym_action_call"
+            android:onClick="callOffice" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -75,7 +76,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:minWidth="100dp"
-            android:drawableLeft="@android:drawable/sym_action_call" />
+            android:drawableLeft="@android:drawable/sym_action_call"
+            android:onClick="callHP" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -105,7 +107,8 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:minWidth="100dp"
-            android:drawableLeft="@android:drawable/sym_action_email" />
+            android:drawableLeft="@android:drawable/sym_action_email"
+            android:onClick="email" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -134,7 +137,9 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:minWidth="100dp" />
+            android:minWidth="100dp"
+            android:onClick="viewSupervisor"
+            android:drawableLeft="@android:drawable/ic_menu_gallery" />
     </RelativeLayout>
 
     <TextView
