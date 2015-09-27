@@ -1,14 +1,16 @@
 package com.magic.lesson1;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 public class EmployeeDetailsActivity extends AppCompatActivity {
 
     static final String TAG = "EmployeeDetailsActivity";
+    EmployeeDatabase.Employee employee = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +23,7 @@ public class EmployeeDetailsActivity extends AppCompatActivity {
         EmployeeDatabase db = new EmployeeDatabase(this);
 
         //From database, get employee table data
-        EmployeeDatabase.Employee employee = db.getEmployee(employeeId);
+        employee = db.getEmployee(employeeId);
 
         TextView nameView = (TextView) findViewById(R.id.ed_name);
         TextView positionView = (TextView) findViewById(R.id.ed_position);
@@ -41,15 +43,19 @@ public class EmployeeDetailsActivity extends AppCompatActivity {
     }
 
     public void callOffice(View Button){
-        Log.d(TAG,"You clicked callOffice button");
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel: " + employee.officePhone));
+        startActivity(intent);
     }
 
     public void callHP(View Button){
-
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel: " + employee.cellPhone));
+        startActivity(intent);
     }
 
     public void email(View Button){
-
+        Intent intent = new Intent(Intent.ACTION_SEND, Uri.parse("mailto:" + employee.email));
+        intent.setType("text/plain");
+        startActivity(intent);
     }
 
     public void viewSupervisor(View Button){
