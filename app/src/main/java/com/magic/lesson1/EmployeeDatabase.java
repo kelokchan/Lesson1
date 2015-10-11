@@ -11,12 +11,6 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class EmployeeDatabase extends SQLiteOpenHelper {
 
-    public static class Employee {
-        public String id, name, position, officePhone, cellPhone,
-                department, email, profileURL, supervisorID, supervisorName;
-        public int salary, annualLeavesLeft;
-    }
-
     public EmployeeDatabase(Context context) {
         super(context, "EmployeeDatabase", null, 1);
     }
@@ -63,15 +57,16 @@ public class EmployeeDatabase extends SQLiteOpenHelper {
         employee.annualLeavesLeft = cursor.getInt(cursor.getColumnIndex("annualLeavesLeft"));
         employee.supervisorID = cursor.getString(cursor.getColumnIndex("supervisorID"));
         employee.supervisorName = cursor.getString(cursor.getColumnIndex("supervisorName"));
-        employee.id = id;
-        
+        employee.ID = id;
+
         cursor.close();
         db.close();
         return employee;
     }
 
-    public void addEmployee(SQLiteDatabase db, String id, String name, String position, String officePhone, String cellPhone,
+    public void addEmployee(String id, String name, String position, String officePhone, String cellPhone,
                             String department, String email, int salary, String profileURL, int annualLeavesLeft, String supervisorID) {
+        SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("ID", id);
         values.put("name", name);
@@ -86,6 +81,7 @@ public class EmployeeDatabase extends SQLiteOpenHelper {
         if (supervisorID != null)
             values.put("supervisorID", supervisorID);
         db.insert("employee", "name", values);
+        db.close();
     }
 
     @Override
@@ -104,12 +100,12 @@ public class EmployeeDatabase extends SQLiteOpenHelper {
                 "annualLeavesLeft INT)";
 
         db.execSQL(sql);
-        addEmployee(db, "888888888801", "RonaldCEO", "Tech Support", "+03 425 424", "+6019 523 2444", "Tech Support", "ronaldo@tech.com", 2500, "www.tech.com/profile/ronaldo.jpg", 2, null);
-        addEmployee(db, "888888888802", "Chan", "Tech Support", "+03 425 424", "+6019 523 2444", "Tech Support", "ronaldo@tech.com", 2500, "www.tech.com/profile/ronaldo.jpg", 2, "888888888801");
-        addEmployee(db, "888888888803", "Alex", "Tech Support", "+03 425 424", "+6019 523 2444", "Tech Support", "ronaldo@tech.com", 2500, "www.tech.com/profile/ronaldo.jpg", 2, "888888888801");
-        addEmployee(db, "888888888804", "Lawrence", "Tech Support", "+03 425 424", "+6019 523 2444", "Tech Support", "ronaldo@tech.com", 2500, "www.tech.com/profile/ronaldo.jpg", 2, "888888888801");
-        addEmployee(db, "888888888805", "Darky", "Tech Support", "+03 425 424", "+6019 523 2444", "Tech Support", "ronaldo@tech.com", 2500, "www.tech.com/profile/ronaldo.jpg", 2, "888888888801");
 
+        addEmployee("888888888801", "RonaldCEO", "Tech Support", "+03 425 424", "+6019 523 2444", "Tech Support", "ronaldo@tech.com", 2500, "www.tech.com/profile/ronaldo.jpg", 2, null);
+        addEmployee("888888888802", "Chan", "Tech Support", "+03 425 424", "+6019 523 2444", "Tech Support", "ronaldo@tech.com", 2500, "www.tech.com/profile/ronaldo.jpg", 2, "888888888801");
+        addEmployee("888888888803", "Alex", "Tech Support", "+03 425 424", "+6019 523 2444", "Tech Support", "ronaldo@tech.com", 2500, "www.tech.com/profile/ronaldo.jpg", 2, "888888888801");
+        addEmployee("888888888804", "Lawrence", "Tech Support", "+03 425 424", "+6019 523 2444", "Tech Support", "ronaldo@tech.com", 2500, "www.tech.com/profile/ronaldo.jpg", 2, "888888888801");
+        addEmployee("888888888805", "Darky", "Tech Support", "+03 425 424", "+6019 523 2444", "Tech Support", "ronaldo@tech.com", 2500, "www.tech.com/profile/ronaldo.jpg", 2, "888888888801");
     }
 
     @Override

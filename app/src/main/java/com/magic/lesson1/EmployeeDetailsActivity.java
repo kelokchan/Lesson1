@@ -5,27 +5,47 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class EmployeeDetailsActivity extends AppCompatActivity {
 
     static final String TAG = "EmployeeDetailsActivity";
-    EmployeeDatabase.Employee employee = null;
+    Employee employee = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.employee_details);
 
-        String employeeId = getIntent().getStringExtra("id");
+        String employeeId = getIntent().getStringExtra("ID");
 
-        //This is not creating a new database, it is not to gain access to current db
-        EmployeeDatabase db = new EmployeeDatabase(this);
+        MagicApiRequest<Employee> request = new MagicApiRequest<Employee>(Employee.class) {
+            @Override
+            public void onSucess(Employee o, String json) {
+                showDetails(o);
+            }
 
-        //From database, get employee table data
-        employee = db.getEmployee(employeeId);
+            @Override
+            public void onFailed(Throwable e) {
+                Toast.makeText(EmployeeDetailsActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        };
+        request.execute("get.php", "ID", employeeId);
+        findViewById(R.id.content).setVisibility(View.GONE);
+    }
 
+    public void showDetails(Employee employee) {
+        View contentView = findViewById(R.id.content);
+        contentView.setVisibility(View.VISIBLE);
+        contentView.startAnimation(AnimationUtils.loadAnimation(this,R.anim.fade_in));
+
+        findViewById(R.id.progressBar2).setVisibility(View.GONE);
+        findViewById(R.id.progressBar).setVisibility(View.GONE);
+
+        this.employee = employee;
         TextView nameView = (TextView) findViewById(R.id.ed_name);
         TextView positionView = (TextView) findViewById(R.id.ed_position);
         TextView officePhoneView = (TextView) findViewById(R.id.ed_officeText);
@@ -41,17 +61,18 @@ public class EmployeeDetailsActivity extends AppCompatActivity {
         hpView.setText("Call HP: " + employee.cellPhone);
         supervisorView.setText("Supervisor: " + employee.supervisorName);
         emailVIew.setText("Email: " + employee.email);
-        idView.setText("ID: " + employee.id);
-        if(employee.supervisorID == null){
+        idView.setText("Employee ID: " + employee.ID);
+        if (employee.supervisorID == null) {
             //GONE = totally gone, does not take any space unlike INVISIBLE
             supervisorContent.setVisibility(View.GONE);
-        }else {
+        } else {
             supervisorView.setText("Supervisor: " + employee.supervisorName);
         }
+
     }
 
     public void callOffice(View Button) {
-        Toast.makeText(this,"Hi", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Hi", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel: " + employee.officePhone));
         startActivity(intent);
     }
@@ -72,7 +93,7 @@ public class EmployeeDetailsActivity extends AppCompatActivity {
 
     public void viewSupervisor(View Button) {
         Intent intent = new Intent(this, EmployeeDetailsActivity.class);
-        intent.putExtra("id", employee.supervisorID);
+        intent.putExtra("ID", employee.supervisorID);
         startActivity(intent);
     }
 

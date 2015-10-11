@@ -3,6 +3,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_employee_details">EmployeeDetails</string>
-    <string name="title_activity_create_employee">CreateEmployeeActivity</string>
+    <string name="title_activity_employee_details">Employee details</string>
+    <string name="title_activity_create_employee">New Employee</string>
 </resources>

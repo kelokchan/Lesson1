@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import com.magic.lesson1.EmployeeDatabase.Employee;
 
 /**
  * Created by Kelok on 6/9/2015.
@@ -44,11 +43,9 @@ public class EmployeeAdapter extends BaseAdapter{
 
         TextView nameView = (TextView) view.findViewById(R.id.el_name);
         TextView positionView = (TextView) view.findViewById(R.id.el_position);
-
         Employee employee = employees[position];
         nameView.setText(employee.name);
         positionView.setText(employee.position + ", " + employee.department);
-
         return view;
     }
 }
